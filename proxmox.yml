@@ -1,5 +1,5 @@
 - name: Proxmox Playbook
-  hosts: 172.16.7.63
+  hosts: host1
   gather_facts: no
   vars_files:
      - vars/vars.yml          
