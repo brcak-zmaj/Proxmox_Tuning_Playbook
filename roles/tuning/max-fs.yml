@@ -1,0 +1,10 @@
+--- 
+
+  - name: Increase max Filesystem open files 
+    copy:
+      dest: /etc/sysctl.d/99-fs.conf
+      content: |
+         fs.nr_open=12000000
+         fs.file-max=9000000
+    tags: ["proxmox", "tuning"]         
+         

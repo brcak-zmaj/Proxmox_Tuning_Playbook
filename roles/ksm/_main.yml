@@ -1,0 +1,17 @@
+---
+
+  - name: Transfer the script
+    copy: src=roles/ksm/ksmtuned.sh dest=/tmp/ksmtuned.sh mode=0777
+    tags: ["proxmox", "skip", "ksm"]
+  
+  - name: Execute the script
+    command: sh /tmp/ksmtuned.sh
+    tags: ["proxmox", "skip", "ksm"]             
+    
+  - name: Enable ksmtuned
+    service:
+      name: ksmtuned
+      enabled: yes
+    tags: ["proxmox", "skip", "ksm"]       
+    
+    

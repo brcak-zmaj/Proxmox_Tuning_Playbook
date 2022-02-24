@@ -1,0 +1,22 @@
+---
+       
+  - name: Add an Apt signing key for Lynis
+    ansible.builtin.apt_key:
+      url: https://packages.cisofy.com/keys/cisofy-software-public.key
+      state: present
+    tags: ["proxmox", "lynis", "skip"]        
+
+  - name: Add Lynis Repo
+    ansible.builtin.apt_repository:
+      repo: deb https://packages.cisofy.com/community/lynis/deb/ stable main
+      state: present       
+    tags: ["proxmox", "lynis", "skip"]          
+             
+  - name: Install Lynis 
+    apt:
+      pkg:
+      - lynis
+      update_cache: true
+      state: present
+    tags: ["proxmox", "lynis", "skip"]          
+

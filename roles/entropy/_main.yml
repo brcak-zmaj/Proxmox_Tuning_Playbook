@@ -1,0 +1,19 @@
+---
+    
+  - name: Ensure Entropy Pools are Populated, prevents slowdowns whilst waiting for entropy
+    copy:
+      dest: /etc/default/haveged
+      content: |
+         DAEMON_ARGS="-w 1024" 
+    tags: ["proxmox", "entropy"]            
+    
+  - name: Restart Journald Service
+    ansible.builtin.systemd:
+      daemon_reload: yes
+    tags: ["proxmox", "entropy"]
+
+  - name: Enable Haveged
+    service:
+      name: haveged
+      enabled: yes
+    tags: ["proxmox", "entropy"]

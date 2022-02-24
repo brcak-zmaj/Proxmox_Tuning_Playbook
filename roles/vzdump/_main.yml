@@ -1,0 +1,48 @@
+---
+
+  - name: Install pigz
+    apt:  
+      pkg: pigz
+      state: present     
+    tags: ["proxmox", "vzdump", "skip"]       
+
+  - name: vzdump Config
+    copy:
+      dest: /etc/vzdump.conf
+      mode: 0777
+      content: |
+         #tmpdir: /dev/shm # This will write to ramdisk. Enable if you have enough disk space
+         #dumpdir: DIR
+         #storage: STORAGE_ID
+         #mode: snapshot|suspend|stop
+         bwlimit: 0
+         ionice: 5
+         #lockwait: MINUTES
+         #stopwait: MINUTES
+         #stdexcludes: BOOLEAN
+         #mailto: ADDRESSLIST
+         #prune-backups: keep-INTERVAL=N[,...]
+         #script: FILENAME
+         #exclude-path: PATHLIST
+         pigz: 1  
+    tags: ["proxmox", "vzdump", "skip"]           
+    
+  - name: Copy pigz shell
+    copy:
+      dest: /bin/pigzwrapper
+      mode: 0777
+      content: |
+         #!/bin/sh
+         #
+         PATH=/bin:\$PATH
+         GZIP="-1"
+         exec /usr/bin/pigz "\$@"    
+    tags: ["proxmox", "vzdump", "skip"]          
+    
+  - name: Backup original gzip 
+    command: mv /bin/gzip /bin/gzip.original 
+    tags: ["proxmox", "vzdump", "skip"]     
+    
+  - name: Overwrite old gzip file with pigz binary
+    copy: remote_src=True src=/bin/pigzwrapper dest=/bin/pigzwrapper mode=0777  
+    tags: ["proxmox", "vzdump", "skip"]     

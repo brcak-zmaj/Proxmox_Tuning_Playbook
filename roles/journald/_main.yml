@@ -1,0 +1,42 @@
+---
+
+  - name: Limit size and optimize Journald
+    copy: 
+      dest: /etc/systemd/journald.conf
+      mode: '0777'
+      content: |
+         [Journal]
+         # Store on disk
+         Storage=persistent
+         # Don't split Journald logs by user
+         SplitMode=none
+         # Disable rate limits
+         RateLimitInterval=0
+         RateLimitIntervalSec=0
+         RateLimitBurst=0
+         # Disable Journald forwarding to syslog
+         ForwardToSyslog=no
+         # Journald forwarding to wall /var/log/kern.log
+         ForwardToWall=yes
+         # Disable signing of the logs, save cpu resources.
+         Seal=no
+         Compress=yes
+         # Fix the log size
+         SystemMaxUse=64M
+         RuntimeMaxUse=60M
+         # Optimise the logging and speed up tasks
+         MaxLevelStore=warning
+         MaxLevelSyslog=warning
+         MaxLevelKMsg=warning
+         MaxLevelConsole=notice
+         MaxLevelWall=crit
+    tags: ["proxmox", "tuning", "journald"]
+                  
+
+  - name: Restart Journald Service
+    service:
+      name: systemd-journald.service            
+      enabled: yes
+      state: started
+    tags: ["proxmox", "tuning", "journald"] 
+

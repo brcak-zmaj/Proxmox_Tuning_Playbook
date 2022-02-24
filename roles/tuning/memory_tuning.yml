@@ -1,0 +1,11 @@
+--- 
+
+  - name: Memory Tuning
+    copy:
+      dest: /etc/sysctl.d/99-memory-tuning.conf
+      content: |
+         vm.min_free_kbytes=524288
+         vm.nr_hugepages=72
+         vm.max_map_count=262144
+         vm.overcommit_memory = 1 
+    tags: ["proxmox", "tuning"]         

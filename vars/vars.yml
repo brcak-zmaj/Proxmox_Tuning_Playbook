@@ -1,0 +1,15 @@
+
+---
+
+# http://docs.ansible.com/ansible/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable
+aptcachetime: 3600
+kiosk_user: kiosk
+kiosk_user_home: /home/kiosk
+remote_install_path: /home/kiosk
+admin_user: sysadmin
+myself: almir
+locale: "en_US.UTF-8"
+timezone: "America/New_York"
+
+
+

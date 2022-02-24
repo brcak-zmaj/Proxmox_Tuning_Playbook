@@ -1,0 +1,14 @@
+--- 
+
+  - name: Increase FD Limit
+    copy:
+      dest: /etc/sysctl.d/99-increase-fd-limit.conf
+      content: |
+         * soft     nproc          256000
+         * hard     nproc          256000
+         * soft     nofile         256000
+         * hard     nofile         256000
+         root soft     nproc          256000
+         root hard     nproc          256000
+         root soft     nofile         256000
+         root hard     nofile         256000

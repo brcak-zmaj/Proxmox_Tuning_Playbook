@@ -1,0 +1,23 @@
+--- 
+
+  - name: Log Rotate config
+    copy:
+      dest: /etc/logrotate.conf
+      content: |
+         weekly
+         su root adm
+         rotate 7
+         create
+         compress
+         size=10M
+         delaycompress
+         copytruncate
+         include /etc/logrotate.d
+    tags: ["proxmox", "logrotate"]         
+         
+  - name: Enable and restart logrotate.d
+    service:
+      name: logrotate
+      enabled: yes
+      state: restarted
+    tags: ["proxmox", "logrotate", "skip"]         

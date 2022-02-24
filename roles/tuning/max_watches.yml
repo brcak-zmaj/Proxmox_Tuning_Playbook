@@ -1,0 +1,14 @@
+--- 
+
+  - name: max watches tuning
+    copy:
+      dest: /etc/sysctl.d/99-max-watches.conf
+      content: |
+         fs.inotify.max_user_watches=1048576  
+         fs.inotify.max_user_instances=1048576    
+         fs.inotify.max_queued_events=1048576
+    tags: ["proxmox", "tuning", "skip"]         
+
+
+
+

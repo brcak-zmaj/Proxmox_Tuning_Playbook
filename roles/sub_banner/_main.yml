@@ -1,0 +1,25 @@
+---
+    
+  - name: Create the cron
+    copy:
+      dest: /etc/cron.daily/pve-subscribe-fix
+      mode: 755
+      content: |
+         #!/bin/sh    
+         sed -i "s/data.status !== 'Active'/false/g" /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js
+         sed -i "s/checked_command: function(orig_cmd) {/checked_command: function() {} || function(orig_cmd) {/g" /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js
+    tags: ["proxmox", "banner"]         
+    
+  - name: Conf
+    copy:
+      dest: /etc/apt/apt.conf.d/pve-subscribe-box
+      mode: 755
+      content: |
+         DPkg::Post-Invoke { "dpkg -V proxmox-widget-toolkit | grep -q '/proxmoxlib\.js$'; if [ $? -eq 1 ]; then { echo 'Removing subscription nag from UI...'; sed -i '/data.status/{s/\!//;s/Active/NoMoreNagging/}' /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js; }; fi"; };    
+    tags: ["proxmox", "banner"]     
+    
+  - name: Reinstall proxmox-widget-toolkit
+    shell: apt --reinstall install proxmox-widget-toolkit  
+    tags: ["proxmox", "banner", "skip"]      
+    
+

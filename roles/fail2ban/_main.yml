@@ -1,0 +1,37 @@
+---
+
+  - name: Install Fail2Ban
+    apt:  
+      pkg: fail2ban
+      state: present
+    tags: ["proxmox", "fail2ban"] 
+    
+  - name: Add entry to filter.d conf
+    copy:
+      dest: /etc/fail2ban/filter.d/proxmox.conf
+      content: |
+         [Definition]
+         failregex = pvedaemon\[.*authentication failure; rhost=<HOST> user=.* msg=.*
+         ignoreregex =
+    tags: ["proxmox", "fail2ban"]          
+
+  - name: Add entry to jail.d conf
+    copy:
+      dest: /etc/fail2ban/jail.d/proxmox.conf
+      content: |
+         [proxmox]
+         enabled = true
+         port = https,http,8006
+         filter = proxmox
+         logpath = /var/log/daemon.log
+         maxretry = 3
+         bantime = 3600
+         findtime = 600  
+    tags: ["proxmox", "fail2ban"]                 
+      
+  - name: Enable fail2ban
+    service:
+      name: fail2ban
+      enabled: yes
+    tags: ["proxmox", "fail2ban"]    
+      

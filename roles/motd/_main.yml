@@ -1,0 +1,5 @@
+---
+
+  - name: Banner
+    copy: src=roles/motd/motd dest=/etc/motd mode=0777
+    tags: ["proxmox"]

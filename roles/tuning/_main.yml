@@ -1,0 +1,16 @@
+
+- import_tasks: memory_tuning.yml
+  tags: ["proxmox", "tuning"]
+- import_tasks: network_tuning.yml
+  tags: ["proxmox", "tuning"]
+- import_tasks: swap_tuning.yml
+  tags: ["proxmox", "tuning"]
+- import_tasks: max_watches.yml
+  tags: ["proxmox", "tuning"]  
+- import_tasks: increase-fd-limit.yml
+  tags: ["proxmox", "tuning"]  
+- import_tasks: maxkeys.yml
+  tags: ["proxmox", "tuning"] 
+- import_tasks: max-fs.yml
+  tags: ["proxmox", "tuning"]         
+  

@@ -1,0 +1,72 @@
+---
+
+  - name: Set the time zone 
+    community.general.timezone: 
+      name: '{{ timezone }}'
+    tags: ["proxmox", "timesyncd", "prep"]      
+      
+  - name: Remove Enterprise Repo
+    apt_repository:
+      filename: pve-enterprise.list
+      repo: deb https://enterprise.proxmox.com/debian/pve bullseye pve-enterprise
+      state: absent
+      update_cache: true      
+    tags: ["proxmox", "prep"]         
+        
+  - name: Update Sources list for debian bullseye
+    copy:
+      dest: /etc/apt/sources.list
+      content: |
+         deb https://ftp.debian.org/debian bullseye main contrib
+         deb https://ftp.debian.org/debian bullseye-updates main contrib
+         deb https://httpredir.debian.org/debian/ bullseye main contrib non-free
+         deb http://security.debian.org/debian-security bullseye-security main contrib
+         deb http://download.proxmox.com/debian/pve bullseye pve-no-subscription  
+    tags: ["proxmox", "prep"]           
+        
+  - name: Update apt cache 
+    apt: 
+      update_cache: yes
+      cache_valid_time: '{{ aptcachetime }}'
+    tags: ["proxmox", "prep"]    
+
+  - name: Install common system utilities
+    apt:  
+      pkg:
+      - pve-headers
+      - module-assistant
+      - aria2
+      - haveged
+      - apt-transport-https
+      - debian-archive-keyring
+      - ca-certificates
+      - curl
+      - zfsutils-linux
+      - axel
+      - build-essential
+      - dialog
+      - dnsutils
+      - dos2unix   
+      - gnupg-agent  
+      - grc 
+      - htop
+      - iftop
+      - iotop
+      - iperf
+      - ipset
+      - iptraf
+      - mlocate
+      - msr-tools
+      - nano
+      - net-tools
+      - software-properties-common
+      - sshpass
+      - unzip
+      - wget
+      - whois
+      - zip 
+      - ifupdown2
+      - systemd-timesyncd      
+      state: present
+      update_cache: yes      
+    tags: ["proxmox", "prep"]     

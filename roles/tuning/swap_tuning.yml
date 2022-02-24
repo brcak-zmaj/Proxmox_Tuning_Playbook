@@ -1,0 +1,7 @@
+--- 
+
+  - name: Memory Tuning
+    copy:
+      dest: /etc/sysctl.d/99-swap-tuning.conf
+      content: |
+         vm.swappiness=10

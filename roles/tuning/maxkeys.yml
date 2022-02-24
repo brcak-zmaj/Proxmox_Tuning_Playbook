@@ -1,0 +1,12 @@
+--- 
+
+  - name: Increase kernel max Key limit
+    copy:
+      dest: /etc/sysctl.d/99-maxkeys.conf
+      content: |
+         kernel.keys.root_maxkeys=1000000
+         kernel.keys.maxkeys=1000000
+    tags: ["proxmox", "tuning", "skip"]         
+    
+    
+    
