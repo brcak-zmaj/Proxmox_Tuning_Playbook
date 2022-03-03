@@ -1,0 +1,10 @@
+---
+
+  - name: Configure KVM config
+    copy:
+      dest: /etc/modprobe.d/kvm.conf
+      content: |
+         options kvm ignore_msrs=1
+         # Below is an option to comment out 'ignored rdmsr' errors in syslog
+         options kvm report_ignored_msrs=0
+    tags: ["tuning", "skip"]
