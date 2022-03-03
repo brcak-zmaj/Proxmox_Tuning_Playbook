@@ -12,5 +12,7 @@
 - import_tasks: maxkeys.yml
   tags: ["proxmox", "tuning"] 
 - import_tasks: max-fs.yml
-  tags: ["proxmox", "tuning"]         
+  tags: ["proxmox", "tuning"]    
+- import_tasks: kvm.yml
+  tags: ["proxmox", "tuning"]  
   
