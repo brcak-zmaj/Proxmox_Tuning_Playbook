@@ -1,6 +1,5 @@
- __   __   __               __                 
-|__) |__) /  `  /\  |__/ __  /  |\/|  /\     | 
-|__) |  \ \__, /~~\ |  \    /_  |  | /~~\ \__/ 
+Brcak-Zmaj Proxmox Optimization Role
+==========
                                               
 
 Overview
