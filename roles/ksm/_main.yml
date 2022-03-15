@@ -1,14 +1,27 @@
 ---
 
+  - name: "Check if KSM already configured"
+    become: yes
+    lineinfile:
+      name: /etc/ksmtuned.conf
+      line: "#tuned"
+      state: present
+    check_mode: yes
+    register: ksm_conf
+    failed_when: (conf is changed) or (conf is failed)
+
   - name: Transfer the script
+    when: ksm_conf == False
     copy: src=roles/ksm/ksmtuned.sh dest=/tmp/ksmtuned.sh mode=0777
     tags: ["proxmox", "skip", "ksm"]
   
   - name: Execute the script
+    when: ksm_conf == False
     command: sh /tmp/ksmtuned.sh
     tags: ["proxmox", "skip", "ksm"]             
     
   - name: Enable ksmtuned
+    when: ksm_conf == True
     service:
       name: ksmtuned
       enabled: yes
