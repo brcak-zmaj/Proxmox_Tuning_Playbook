@@ -24,11 +24,15 @@
          #deb http://download.proxmox.com/debian/pve bullseye pve-no-subscription  
     tags: ["proxmox", "prep"]           
         
-  - name: Update apt cache 
-    apt: 
-      update_cache: yes
-      cache_valid_time: '{{ aptcachetime }}'
+  - name: Update apt-get repo and cache
+    become: yes
+    apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
     tags: ["proxmox", "prep"]    
+
+  - name: Upgrade all apt packages
+    become: yes
+    apt: upgrade=dist force_apt_get=yes  
+    tags: ["proxmox", "prep"]        
 
   - name: Install common system utilities
     apt:  
