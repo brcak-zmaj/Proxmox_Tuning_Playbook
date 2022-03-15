@@ -1,19 +1,33 @@
 ---
     
+  - name: "Check if swap has already been created"
+    become: yes
+    lineinfile:
+      name: /etc/default/haveged
+      line: "DAEMON_ARGS="-w 1024""
+      state: present
+    check_mode: yes
+    register: haveged_conf
+    failed_when: (conf is changed) or (conf is failed)
+            
   - name: Ensure Entropy Pools are Populated, prevents slowdowns whilst waiting for entropy
+    when: haveged_conf == False
+    become: yes  
     copy:
       dest: /etc/default/haveged
       content: |
          DAEMON_ARGS="-w 1024" 
-    tags: ["proxmox", "entropy"]            
+    tags: ["proxmox", "entropy"]     
     
-  - name: Restart Journald Service
-    ansible.builtin.systemd:
-      daemon_reload: yes
-    tags: ["proxmox", "entropy"]
-
   - name: Enable Haveged
+    when: haveged_conf == True  
     service:
       name: haveged
       enabled: yes
-    tags: ["proxmox", "entropy"]
+    tags: ["proxmox", "entropy"]    
+    
+  - name: Restart Journald Service
+    when: haveged_conf == True    
+    ansible.builtin.systemd:
+      daemon_reload: yes
+    tags: ["proxmox", "entropy"]    
