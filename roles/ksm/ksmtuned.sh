@@ -28,4 +28,5 @@ if [ "$tune" == "yes" ] ; then
     fi
     sed -i -e "s/\# KSM_THRES_COEF=.*/KSM_THRES_COEF=${KSM_THRES_COEF}/g" /etc/ksmtuned.conf
     sed -i -e "s/\# KSM_SLEEP_MSEC=.*/KSM_SLEEP_MSEC=${KSM_SLEEP_MSEC}/g" /etc/ksmtuned.conf
+    echo '#tuned' >> /etc/ksmtuned.conf
 fi
