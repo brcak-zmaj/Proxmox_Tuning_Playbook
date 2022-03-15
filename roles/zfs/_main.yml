@@ -1,0 +1,34 @@
+---
+
+  - name: "Check if ZFS has been tuned"
+    become: yes
+    lineinfile:
+      name: /usr/bin/local/zfs_snapshots_tuned
+      line: "done"
+      state: present
+    check_mode: yes
+    register: zfs_snapshot_conf
+    failed_when: (conf is changed) or (conf is failed)
+
+  - name: Transfer the snapshot script
+    when: zfs_snapshot_conf == False  
+    copy: src=roles/proxmox/snapshots/zfs_auto_snapshot.sh dest=/tmp/zfs_auto_snapshot.sh mode=0777
+    tags: ["proxmox", "skip", "zfs"]
+    
+  - name: Transfer the zfs arch script
+    when: zfs_snapshot_conf == False  
+    copy: src=roles/proxmox/snapshots/zfs_arc.sh dest=/tmp/zfs_arc.sh mode=0777
+    tags: ["proxmox", "skip", "zfs"]    
+
+  - name: Execute the script
+    when: zfs_snapshot_conf == False    
+    command: sh /tmp/zfs_auto_snapshot.sh
+    tags: ["proxmox", "skip", "zfs"]  
+  
+  - name: Execute the script
+    when: zfs_snapshot_conf == False    
+    command: sh /tmp/zfs_arc.sh
+    tags: ["proxmox", "skip", "zfs"]             
+     
+    
+    
