@@ -9,6 +9,7 @@
     check_mode: yes
     register: ksm_conf
     failed_when: (conf is changed) or (conf is failed)
+    tags: ["proxmox", "skip", "ksm"]    
 
   - name: Transfer the script
     when: ksm_conf == False
