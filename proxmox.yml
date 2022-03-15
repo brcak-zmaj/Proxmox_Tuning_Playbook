@@ -1,11 +1,13 @@
 - name: Proxmox Playbook
   hosts: host1
-  gather_facts: no
+  gather_facts: yes
   vars_files:
      - vars/vars.yml          
   tasks:                   
      - import_tasks: roles/prep/_main.yml   
-       tags: ["proxmox", "prep"]       
+       tags: ["proxmox", "prep"]   
+     - import_tasks: roles/bash/_main.yml   
+       tags: ["proxmox", "bashrc"]       
      - import_tasks: roles/entropy/_main.yml   
        tags: ["proxmox", "entropy"]  
      - import_tasks: roles/journald/_main.yml   
@@ -16,6 +18,8 @@
        tags: ["proxmox", "logrotate"]                   
      - import_tasks: roles/tuning/_main.yml
        tags: ["proxmox", "tuning"]  
+     - import_tasks: roles/zfs/_main.yml   
+       tags: ["proxmox", "zfs"]       
      - import_tasks: roles/sub_banner/_main.yml
        tags: ["proxmox", "banner"]            
      - import_tasks: roles/fail2ban/_main.yml
@@ -25,4 +29,5 @@
      - import_tasks: roles/lynis/_main.yml
        tags: ["proxmox", "lynis"]  
      - import_tasks: roles/motd/_main.yml
-       tags: ["proxmox"]                   
+       tags: ["proxmox"]     
+       
