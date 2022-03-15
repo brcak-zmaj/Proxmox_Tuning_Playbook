@@ -9,6 +9,7 @@
     check_mode: yes
     register: haveged_conf
     failed_when: (conf is changed) or (conf is failed)
+    tags: ["proxmox", "entropy"]    
             
   - name: Ensure Entropy Pools are Populated, prevents slowdowns whilst waiting for entropy
     when: haveged_conf == False
