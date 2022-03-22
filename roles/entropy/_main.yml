@@ -4,7 +4,7 @@
     become: yes
     lineinfile:
       name: /etc/default/haveged
-      line: "DAEMON_ARGS="-w 1024""
+      line: 'DAEMON_ARGS="-w 1024"'
       state: present
     check_mode: yes
     register: haveged_conf
