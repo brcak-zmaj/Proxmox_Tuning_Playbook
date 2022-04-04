@@ -1,11 +1,11 @@
-Brcak-Zmaj Proxmox Optimization Role
+Brcak-Zmaj Proxmox Optimization Playbook
 ==========
                                               
 
 Overview
 --------
 
-This is a quick and simple role that was intended to bring a vanilla Proxmox to a Optimized and production ready server. This script installs useful utilities and packages that are helpful during day to day operations. Please submit pull requests..
+This is a quick and simple Playbook that was intended to bring a vanilla Proxmox to a Optimized and production ready server. This script installs useful utilities and packages that are helpful during day to day operations. Please submit pull requests..
 
 > Idealy you would run this once and then any other time run with the --skip-tags=skip to save some time
 
